@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-cine-bg: #121214;
+  --color-cine-surface: #1b1b1f;
+  --color-cine-surface-2: #232328;
+  --color-cine-cream: #f2efe6;
+  --color-cine-gold: #e3b23c;
+  --color-cine-gold-dim: #b8892a;
+  --color-cine-crimson: #b33a3a;
+  --color-cine-teal: #2f8f86;
+
+  --font-display: "Bebas Neue", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-cine-bg);
+  color: var(--color-cine-cream);
+  font-family: var(--font-body);
+  background-image:
+    radial-gradient(circle at 20% 0%, rgba(227, 178, 60, 0.06), transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(47, 143, 134, 0.06), transparent 35%);
+}
+
+.ticket-notch::before,
+.ticket-notch::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--color-cine-bg);
+  z-index: 10;
+}
+.ticket-notch::before {
+  left: -9px;
+}
+.ticket-notch::after {
+  right: -9px;
+}
+
+.ticket-divider {
+  border-top: 2px dashed rgba(242, 239, 230, 0.2);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cine-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-cine-surface-2);
+  border-radius: 9999px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton-shimmer {
+  background: linear-gradient(90deg, var(--color-cine-surface) 0%, var(--color-cine-surface-2) 50%, var(--color-cine-surface) 100%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
