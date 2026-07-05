@@ -1,61 +1,99 @@
-# CineTrack 🎬
+# 🎬 CineTrack
 
-A minimalist Movie Watchlist & Review dashboard built with React + Vite + Tailwind CSS.
-Track movies you want to watch, mark them watched, search, and filter — all persisted
-locally in the browser via `localStorage`.
+A minimalist, production-ready Movie Watchlist & Review dashboard built with **React**,
+**Vite**, and **Tailwind CSS**. Users can manage a dynamic movie collection, toggle
+watched status, rate movies, filter and search in real time, and persist everything
+locally in the browser.
 
-Built as a technical assignment for the React.js Frontend Developer Intern role.
 
-## Features
+**Live Demo:** 
+**Repository:** 
 
-- **Dashboard grid** — responsive card layout showing poster, title, genre, and release year.
-- **Mark as Watched / Unwatched** — toggle a movie's watched state with one click.
-- **Delete** — remove a movie from the collection.
-- **Add Movie form** — client-side validated form (empty-field checks, year range check,
-  optional poster URL format check).
-- **Status filter** — tab control to view All / Watched / Unwatched movies.
-- **Live search** — instant client-side filtering by title as you type.
-- **Simulated async loading** — a short artificial delay on first load, backed by
-  skeleton-loading ticket cards, to demonstrate loading-state UX.
-- **Persistence** — all data (seed movies + your additions/edits) is saved to
-  `localStorage`, so your collection survives a page refresh.
-- **Icons throughout** — via `lucide-react` (search, filter tabs, eye/eye-off watched
-  state, trash for delete, clapperboard/film branding) instead of plain text buttons.
-- **5-star ratings** — click a star on any card to rate a movie; click the same star
-  again to clear it. Persisted alongside the rest of the movie data.
-- **Toast notifications** — small confirmation toasts on add / watched-toggle / delete,
-  auto-dismissing after ~2.5s.
-- **Poster hover effect** — subtle zoom + gradient overlay with a film icon on hover,
-  for a more "alive" card feel.
+---
 
-## Tech Stack
+## 📋 Assignment Requirements Checklist
 
-- React 19 (functional components + hooks, no external state library)
-- Vite 8 (build tool / dev server)
-- Tailwind CSS v4 (via `@tailwindcss/postcss`)
-- Plain `localStorage` for persistence — no backend/API involved
+Every requirement from the assignment brief is implemented and mapped to source files below.
 
-## Project Structure
+| # | Requirement | Status | Implementation |
+|---|---|---|---|
+| 1 | Responsive dashboard grid | ✅ | `MovieGrid.jsx` — 1 / 2 / 3 / 4 column responsive layout |
+| 2 | Card shows Title, Genre, Year, Poster | ✅ | `MovieCard.jsx` |
+| 3 | "Mark as Watched" toggle | ✅ | `MovieCard.jsx` + `toggleWatched()` in `useMovies.js` |
+| 4 | "Delete" action | ✅ | `MovieCard.jsx` + `deleteMovie()` in `useMovies.js` |
+| 5 | Add Movie form | ✅ | `AddMovieForm.jsx` |
+| 6 | Client-side validation (empty / invalid input) | ✅ | `validate()` in `AddMovieForm.jsx` — required fields, year-range check, poster URL format check |
+| 7 | Status filter (Watched / Unwatched) | ✅ | `Controls.jsx` tab control + filter logic in `App.jsx` |
+| 8 | Real-time search by title | ✅ | `Controls.jsx` search input + filter logic in `App.jsx` |
+| 9 | Simulated async experience with loading spinner/skeleton | ✅ | `useMovies.js` (900ms artificial delay while parsing state) + `SkeletonCard.jsx` |
+| 10 | Local/hardcoded data with state persistence | ✅ | `initialMovies.js` (seed data) + full `localStorage` read/write in `useMovies.js` |
+| 11 | Minimalist, production-ready UI | ✅ | Custom Tailwind CSS v4 design system (see [Design](#-design)) |
+
+---
+
+## ✨ Beyond the Brief
+
+A few additions on top of the core spec, to reflect real product/UI thinking rather than
+a literal checklist implementation:
+
+- **5-star ratings** on every card (click to set, click again to clear) — extends the
+  "Review" half of the assignment's own interface name.
+- **Toast notifications** on add / watch-toggle / delete, for immediate visual feedback.
+- **Icon system** via `lucide-react` throughout — search, filters, watched state, delete,
+  form actions — replacing plain text buttons.
+- **Poster hover interaction** — subtle zoom + gradient overlay on hover.
+- **Custom visual identity** — a cinema "ticket stub" motif (perforated card edges, dashed
+  dividers, marquee-style header) instead of a generic Bootstrap-like layout.
+
+---
+
+## 🧱 Tech Stack
+
+| Layer | Choice |
+|---|---|
+| Framework | React 19 (functional components + hooks) |
+| Build tool | Vite 8 |
+| Styling | Tailwind CSS v4 (`@tailwindcss/postcss`) |
+| Icons | lucide-react |
+| State management | React `useState` / custom hooks — no external library |
+| Persistence | Browser `localStorage` (no backend, per assignment scope) |
+
+---
+
+## 📁 Project Structure
 
 ```
-src/
-  components/
-    Marquee.jsx        # Header / stats banner
-    Controls.jsx        # Search input, status filter tabs, add-movie toggle
-    AddMovieForm.jsx     # Validated form to add a new movie
-    MovieGrid.jsx        # Grid layout + empty state
-    MovieCard.jsx        # Individual movie "ticket stub" card
-    SkeletonCard.jsx      # Loading placeholder card
-  hooks/
-    useMovies.js         # All movie state, localStorage read/write, simulated delay
-  data/
-    initialMovies.js     # Hardcoded seed data (used only on first run)
-  App.jsx
-  main.jsx
-  index.css
+cinetrack/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── components/
+│   │   ├── Marquee.jsx          # Header banner with live collection stats
+│   │   ├── Controls.jsx         # Search input, status filter tabs, add-movie toggle
+│   │   ├── AddMovieForm.jsx     # Validated form for creating new entries
+│   │   ├── MovieGrid.jsx        # Responsive grid, loading state, empty state
+│   │   ├── MovieCard.jsx        # Individual "ticket stub" movie card
+│   │   ├── SkeletonCard.jsx     # Loading placeholder matching card layout
+│   │   ├── StarRating.jsx       # Interactive 5-star rating control
+│   │   └── ToastStack.jsx       # Toast notification UI
+│   ├── hooks/
+│   │   ├── useMovies.js         # Movie state, localStorage sync, simulated async load
+│   │   └── useToasts.js         # Toast queue management
+│   ├── data/
+│   │   └── initialMovies.js     # Hardcoded seed data (first-run only)
+│   ├── App.jsx                  # Top-level composition and state wiring
+│   ├── main.jsx                 # React entry point
+│   └── index.css                # Design tokens + global styles
+├── index.html
+├── package.json
+├── postcss.config.js
+├── vite.config.js
+└── README.md
 ```
 
-## Getting Started (Local Setup)
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -65,7 +103,7 @@ src/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/cinetrack.git
+git clone https://github.com/Avishek-Pratyay/cinetrack.git
 cd cinetrack
 ```
 
@@ -75,46 +113,67 @@ cd cinetrack
 npm install
 ```
 
-### 3. Start the local development server
+### 3. Run the development server
 
 ```bash
 npm run dev
 ```
 
-This starts Vite's dev server, typically at **http://localhost:5173**.
-Open that URL in your browser — the terminal output will confirm the exact port.
+Vite will start a local server (typically **http://localhost:5173**) — open the printed
+URL in your browser. The dev server supports hot module reload, so edits reflect instantly.
 
-### 4. Build for production (optional, used for deployment)
+### 4. Build for production
 
 ```bash
 npm run build
 ```
 
-Output is generated in the `dist/` folder. You can preview the production build
-locally with:
+Generates an optimized build in `dist/`. Preview it locally with:
 
 ```bash
 npm run preview
 ```
 
-## Deployment (Vercel)
+---
 
-1. Push this repository to GitHub.
-2. Go to [vercel.com](https://vercel.com), click **New Project**, and import the repo.
-3. Vercel auto-detects the Vite framework preset:
-   - **Build Command:** `npm run build` (or `vite build`)
+## ☁️ Deployment (Vercel)
+
+1. Push the repository to GitHub (see [Contributing / Commit History](#-commit-history)).
+2. Go to [vercel.com](https://vercel.com) → **New Project** → import the GitHub repo.
+3. Vercel auto-detects the Vite preset:
+   - **Build Command:** `npm run build`
    - **Output Directory:** `dist`
-4. Click **Deploy**. Once complete, Vercel gives you a live public URL.
+4. Click **Deploy**. Vercel provides a live public URL once the build finishes.
 
-## Notes on Data & State
+---
 
-- On first load, `useMovies` seeds `localStorage` with a handful of hardcoded movies
-  from `src/data/initialMovies.js`.
-- Every subsequent add/toggle/delete operation updates React state and is immediately
-  synced back to `localStorage` under the key `cinetrack:movies`.
-- No backend or external API is used — this is a fully client-side application, per
-  the assignment's scope.
+## 🗃️ Data & State Notes
 
-## Author
+- On first run, `useMovies` seeds `localStorage` with sample movies from
+  `src/data/initialMovies.js`.
+- Every add, toggle, rate, or delete action updates React state and is synced back to
+  `localStorage` under the key `cinetrack:movies` — so the collection survives page
+  refreshes and browser restarts.
+- The entire application is client-side only, with no backend, API, or database, in
+  line with the assignment's stated scope ("Frontend Only").
 
-Avishek — B.Sc. in Computer Science & Engineering, AIUB.
+---
+
+## 🎨 Design
+
+CineTrack uses a custom cinema-inspired design system rather than default component
+library styling:
+
+- **Palette:** charcoal background, cream text, marquee gold accent, teal for
+  "watched" states, crimson for destructive actions.
+- **Typography:** Bebas Neue (display/headings), Inter (body), JetBrains Mono
+  (labels/stats) — evoking marquee signage and ticket stub typography.
+- **Signature motif:** movie cards are styled as torn ticket stubs, with perforated
+  edge notches and a dashed divider between the poster and the details section.
+
+---
+
+## 👤 Author
+
+**Avishek Chanda Pratyay**
+B.Sc. in Computer Science & Engineering, American International University-Bangladesh (AIUB)
